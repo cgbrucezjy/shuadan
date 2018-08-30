@@ -31,7 +31,7 @@ export class SdCardComponent implements OnInit, OnChanges {
   {
     window.open(this.product.url, "_system");
   }
-  openDialog() {
+  reviewed() {
     //this.dialog.open(VenmoDialogComponent)
     const dialogRef = this.dialog.open(BougtDialogComponent, {
       data: {product:this.product,userProfile:this.userProfile},
@@ -44,6 +44,13 @@ export class SdCardComponent implements OnInit, OnChanges {
         this.dialog.open(VenmoDialogComponent)
       }
     });
+  }
+  bought()
+  {
+    const dialogRef = this.dialog.open(BougtDialogComponent, {
+      data: {product:this.product,userProfile:this.userProfile,justBought:true},
+    });
+
   }
   updateDialog()
   {

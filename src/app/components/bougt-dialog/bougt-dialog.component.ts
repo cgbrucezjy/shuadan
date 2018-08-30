@@ -16,28 +16,30 @@ export class BougtDialogComponent implements OnInit {
   payment
   selectedFile: File;
   uploadProgress
+  justBought
+  uploading
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,public fb:sdFirebase,
   public dialogRef: MatDialogRef<BougtDialogComponent>,) { }
 
   ngOnInit() {
     console.log(this.data.product.ASIN)
     this.email = this.data.userProfile.email
+    this.justBought = this.data.justBought
   }
   submit()
   {
     this.fb.checkSecret().pipe(take(1)).subscribe(checkSecret=>{
       console.log(checkSecret)
-      if(this.couponCode !=checkSecret)
+      if(this.justBought && this.couponCode !=checkSecret)
       {
         this.error = "Wrong coupon code"
         return;
       }
       else
       {
-        if(this.couponCode && this.orderId && this.email && this.price && this.payment && this.selectedFile)
+        if(this.orderId && this.email && this.price && this.payment && this.selectedFile)
         {
           const data = {
-            couponCode:this.couponCode,
             orderId:this.orderId,
             email:this.email,
             ASIN:this.data.product.ASIN,
@@ -46,24 +48,39 @@ export class BougtDialogComponent implements OnInit {
             imgName:this.orderId+"."+this.selectedFile.name.split('.')[this.selectedFile.name.split('.').length-1]
           }
           console.log(data)
-          this.fb.product(data.ASIN).pipe(take(1)).subscribe(pd=>{
-            if(pd.quantity>0)
-            {
-              this.fb.saveOrder(data)
-              this.fb.updateProductQuantity(this.data.product,pd.quantity-1)
-              this.uploadImage(data.orderId)
-              this.uploadProgress.pipe(
-                finalize(()=>{
-                  this.dialogRef.close({success:true})
-                })
-              ).subscribe()
-              
-            }
+          this.fb.saveOrder(data)
+          this.uploadImage(data.orderId)
+          this.uploadProgress.pipe(
+            finalize(()=>{
+              this.dialogRef.close({success:true})
+            })
+          ).subscribe(()=>{
+            this.uploading = true;
           })
         }
         else
         {
-          this.error = "Please fill in every field"
+          if(this.justBought)
+          {
+            this.fb.product(this.data.product.ASIN).pipe(take(1)).subscribe(pd=>{
+              if(pd.quantity>0)
+              {
+                this.fb.updateProductQuantity(this.data.product,pd.quantity-1)
+                this.justBought = false;
+                this.dialogRef.close({success:false})
+              }
+              else
+              {
+                this.error = "Not Enough Quantity"
+              }
+            })
+            
+          }
+          else
+          {
+            this.error = "Please fill in every field"
+          }
+          
         }
       }
     })

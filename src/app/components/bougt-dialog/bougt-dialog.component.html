@@ -2,22 +2,22 @@
 <mat-dialog-content>
   <p>Please enter your order information</p>
   <div class="form-fields">
-      <mat-form-field>
+      <mat-form-field *ngIf="!justBought">
           <input matInput [(ngModel)]="orderId" placeholder="Order Id">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field *ngIf="justBought">
           <input matInput [(ngModel)]="couponCode" placeholder="Coupon code">
       </mat-form-field>
-      <mat-form-field>
-          <input matInput [(ngModel)]="price" placeholder="price after tax">
+      <mat-form-field *ngIf="!justBought">
+          <input matInput [(ngModel)]="price" type="tel" placeholder="price after tax">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field *ngIf="!justBought">
         <input matInput [(ngModel)]="payment" placeholder="Vemo or PP">
     </mat-form-field>
-      <mat-form-field>
+      <mat-form-field >
         <input matInput [(ngModel)]="email" disabled placeholder="email">
     </mat-form-field>
-    <div class="upload-block" *ngIf="!uploadProgress">
+    <div class="upload-block" *ngIf="!uploadProgress && !justBought" >
         <input type="file" (change)="onFileChanged($event)">
         <!-- <button *ngIf="selectedFile" mat-raised-button color="primary" (click)="uploadImage()">Upload Comment ScreenShot</button> -->
     </div>
@@ -26,7 +26,7 @@
   <p class="error">{{error}}</p>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-dialog-close [disabled]="uploading">Cancel</button>
   <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-  <button mat-button (click)="submit()">OK</button>
+  <button mat-button (click)="submit()" [disabled]="uploading">OK</button>
 </mat-dialog-actions>
