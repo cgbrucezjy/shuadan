@@ -19,7 +19,7 @@ export class AppEffects {
         if(action.payload)
         {
           const itemsRef = this.db.object('users/'+profile.uid);
-          return from(itemsRef.set(profile)).pipe(
+          return from(itemsRef.update({...profile})).pipe(
             map(data =>({ type: LOGIN_STATUS, payload: {success:true} })),
             catchError((error) => of({ type: LOGIN_STATUS,payload:{success:false,...error} }))
           );

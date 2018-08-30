@@ -2,13 +2,13 @@
 <mat-dialog-content>
   <p>Please enter your order information</p>
   <div class="form-fields">
-      <mat-form-field *ngIf="!justBought">
+      <mat-form-field *ngIf="justBought">
           <input matInput [(ngModel)]="orderId" placeholder="Order Id">
       </mat-form-field>
       <mat-form-field *ngIf="justBought">
           <input matInput [(ngModel)]="couponCode" placeholder="Coupon code">
       </mat-form-field>
-      <mat-form-field *ngIf="!justBought">
+      <mat-form-field *ngIf="justBought">
           <input matInput [(ngModel)]="price" type="tel" placeholder="price after tax">
       </mat-form-field>
       <mat-form-field *ngIf="!justBought">

@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { sdFirebase } from '../services/sd-firebase';
 import { ObservableMedia } from '@angular/flex-layout';
 
-import { takeWhile,startWith, map } from 'rxjs/operators';
+import { takeWhile,startWith, map, take, combineLatest } from 'rxjs/operators';
 import { Observable } from '../../../node_modules/rxjs';
 import { State, select } from '@ngrx/store';
 import { AppState } from '../reducers/app-state-reducer';
 import { MatDialog } from '@angular/material';
 import { UpdateDialogComponent } from '../components/update-dialog/update-dialog.component';
+import { Order, UserService } from '../services/user-service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,15 +19,20 @@ export class HomeComponent implements OnInit {
   cols: Observable<number>;
   isAdmin
   userProfile
+  boughtItems$:Observable<Order[]>
+  boughtItems
+  reviewedItemsASIN
+  boughtItemsASIN
   constructor(
     public fb:sdFirebase,
     private observableMedia: ObservableMedia,
     public state:State<AppState>,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public userService:UserService
   ) { }
 
   ngOnInit() {
-    this.products = this.fb.products()
+    
     const grid = new Map([
       ["xs", 1],
       ["sm", 2],
@@ -49,7 +55,7 @@ export class HomeComponent implements OnInit {
       }),
       startWith(start)
     )
-
+    
     this.state.pipe(
       select('appStateReducer'),
       select('isAdmin')
@@ -64,7 +70,23 @@ export class HomeComponent implements OnInit {
     ).subscribe(profile=>{
       console.log(profile)
       this.userProfile = profile
+      if(this.userProfile && this.userProfile.uid)
+      {
+        this.boughtItems$ = this.userService.getOrders()
+        this.fb.products().pipe(combineLatest(this.boughtItems$)).subscribe((sink)=>{
+          let resp = sink[1]
+          this.products = sink[0]
+          console.log(this.isAdmin)
+          this.boughtItemsASIN = resp.filter(i=>!i.reviewed).map(i=>i.ASIN)
+          this.reviewedItemsASIN = resp.filter(i=>i.reviewed).map(i=>i.ASIN)
+          this.products = this.products//this.products.filter(p=>!this.reviewedItemsASIN.includes(p.ASIN))
+          this.boughtItems = resp
+        })
+      }
+
     })
+    
+
   }
   addItem()
   {

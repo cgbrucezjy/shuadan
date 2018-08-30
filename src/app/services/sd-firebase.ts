@@ -23,7 +23,11 @@ export class sdFirebase {
     }
     saveOrder(order)
     {
-        this.db.list("ordered-products/"+order.ASIN).push(order)
+        return this.db.list("ordered-products/"+order.ASIN).push(order)
+    }
+    updateOrder(updateOrder,orderKey)
+    {
+        this.db.object("ordered-products/"+updateOrder.ASIN+"/"+orderKey).update(updateOrder)   
     }
     updateProductQuantity(product,newQuantity)
     {

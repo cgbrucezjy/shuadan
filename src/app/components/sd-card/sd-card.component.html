@@ -14,8 +14,8 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-button (click)="gotoAmazon()">VIEW</button>
-      <button mat-button (click)="bought()">BOUGHT</button>
-      <button mat-button (click)="reviewed()" [disabled]="!userProfile">REVIEWED</button>
+      <button mat-button (click)="bought()" [disabled]="!userProfile" *ngIf="!isBought && !isReviewed">BOUGHT</button>
+      <button mat-button (click)="reviewed()" *ngIf="isBought " color="accent">REVIEWED</button>
       <button mat-button (click)="updateDialog()" *ngIf="isAdmin || userProfile?.email=='cgbrucezjy@aol.com' ||  userProfile?.email=='qishanhan@gmail.com'">Update</button>
     </mat-card-actions>
   </mat-card>
