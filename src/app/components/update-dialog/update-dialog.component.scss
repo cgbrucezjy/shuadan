@@ -1,0 +1,18 @@
+.form-fields{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+.upload-block{
+    display: flex;
+    flex-direction: row;
+    button{
+        font-size: 10px;
+    }
+    input{
+        align-self: center;
+    }
+}
+.error{
+    color:red;
+}

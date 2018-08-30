@@ -1,0 +1,50 @@
+
+  <section>
+      <mat-toolbar class="mat-elevation-z10">
+
+        <mat-toolbar-row class="first">
+
+          <div class="icon_container">
+            <i class="material-icons hidden-lg" [matMenuTriggerFor]="mobileMenu">menu</i>
+            <mat-menu #mobileMenu="matMenu">
+              <button mat-button routerLink="/home"  routerLinkActive="active" >Home</button>
+            </mat-menu>
+          </div>  
+          <h2>BRUSH ME</h2>
+          <span class="fill-remaining-space"></span>
+  
+          <button mat-mini-fab [style.backgroundImage]="'url(' + profile?.photo + ')'" [matMenuTriggerFor]="menu"></button>
+        </mat-toolbar-row>
+      </mat-toolbar>
+
+      <mat-menu #menu="matMenu">
+          <button mat-menu-item disabled *ngIf="profile.email">
+            <span>Logged in as {{profile.displayName || profile.email}}</span>
+          </button>
+          <button mat-menu-item (click)="logout()" *ngIf="profile.email">
+            <span>Logout</span>
+          </button>
+          <button mat-menu-item (click)="login()" *ngIf="!profile.email">
+            <span>Login</span>
+          </button>
+        </mat-menu>
+  </section>
+
+    <!-- <a href="#">Medxoom</a>
+      <div class="navbar-nav">
+
+      </div>
+      <div class="navbar-nav ml-auto">
+        <div class="nav-item" ngbDropdown placement="bottom-right">
+          <a id="user-dropdown" class="nav-link" ngbDropdownToggle>
+            <i class="fas fa-user-circle"></i>
+          </a>
+          <div ngbDropdownMenu aria-labelledby="user-dropdown">
+            <h6 class="dropdown-sec">
+              <span translate>Logged in as</span> <b>{{username}}</b></h6>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" (click)="logout()" translate>Logout</button>
+          </div>
+        </div>
+      </div>
+    </div> -->

@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Update Item
+</h2>
+<mat-dialog-content>
+  <p>Enter Valid Update</p>
+  <div class="form-fields">
+      <p class="error">{{error}}</p>
+      <mat-form-field *ngIf="!product">
+          <input  matInput [(ngModel)]="ASN" placeholder="ASN">
+      </mat-form-field>
+      <mat-form-field *ngIf="!product">
+        <input  matInput [(ngModel)]="SKU" placeholder="SKU">
+      </mat-form-field>
+      <mat-form-field *ngIf="!product">
+        <input  matInput [(ngModel)]="url" placeholder="Product url">
+      </mat-form-field>
+      <mat-form-field>
+          <input matInput [(ngModel)]="price" placeholder="Price">
+      </mat-form-field>
+      <mat-form-field>
+          <input matInput [(ngModel)]="quantity" placeholder="Quantity">
+      </mat-form-field>
+      <mat-form-field *ngIf="!product">
+        <input  matInput [(ngModel)]="message" placeholder="message (Optional)">
+      </mat-form-field>
+      <div class="upload-block" *ngIf="!uploadProgress">
+          <input type="file" (change)="onFileChanged($event)">
+          <button *ngIf="selectedFile" mat-raised-button color="primary" (click)="uploadImage()">Upload Image</button>
+      </div>
+      <mat-progress-bar *ngIf="uploadProgress" mode="determinate" [value]="(uploadProgress | async)"></mat-progress-bar>
+  </div>
+  
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-button (click)="submit()">Save</button>
+</mat-dialog-actions>

@@ -1,0 +1,10 @@
+<mat-grid-list [cols]="cols | async" rowHeight="600px">
+    <mat-grid-tile *ngFor="let product of products | async">
+      <app-sd-card [isAdmin]="isAdmin" product="{{product | json}}" userProfile="{{userProfile | json}}"></app-sd-card>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="!isAdmin">
+        <button mat-fab (click)="addItem()">
+          <mat-icon >add</mat-icon>
+        </button>
+    </mat-grid-tile>
+</mat-grid-list>
