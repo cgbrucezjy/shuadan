@@ -60,8 +60,13 @@ export class sdFirebase {
             message,
             ASIN,
             url,
-            SKU
+            SKU,
+            reviewed:false
         })
+    }
+    removeItem(ASIN)
+    {
+        this.db.object('catelog/'+ASIN).set(null)
     }
 }
 

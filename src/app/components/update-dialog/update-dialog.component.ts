@@ -43,12 +43,17 @@ export class UpdateDialogComponent implements OnInit {
     else
     {
       const storageRef = this.service
-      .pushUpload('/products'+asin)
+      .pushUpload('/products/'+asin)
   
       let uploadTask = storageRef.put(this.selectedFile);
       this.uploadProgress = uploadTask.percentageChanges()
     }
 
+  }
+  remove()
+  {
+    this.service.removeItem(this.product.ASIN)
+    this.dialogRef.close()
   }
   submit()
   {

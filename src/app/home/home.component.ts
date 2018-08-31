@@ -57,13 +57,13 @@ export class HomeComponent implements OnInit {
       startWith(start)
     )
     
-    this.state.pipe(
-      select('appStateReducer'),
-      select('isAdmin')
-    ).subscribe(isAdmin=>{
-      console.log(isAdmin)
-      this.isAdmin = isAdmin
-    })
+    // this.state.pipe(
+    //   select('appStateReducer'),
+    //   select('isAdmin')
+    // ).subscribe(isAdmin=>{
+    //   console.log(isAdmin)
+    //   this.isAdmin = isAdmin
+    // })
 
     this.state.pipe(
       select('appStateReducer'),
@@ -78,6 +78,7 @@ export class HomeComponent implements OnInit {
           let resp = sink[1]
           this.products = sink[0]
           console.log(this.isAdmin)
+          this.isAdmin = this.userProfile.email=='cgbrucezjy@aol.com' ||  this.userProfile.email=='qishanhan@gmail.com'
           this.boughtItemsASIN = resp.filter(i=>!i.reviewed).map(i=>i.ASIN)
           this.reviewedItemsASIN = resp.filter(i=>i.reviewed).map(i=>i.ASIN)
           this.products = this.products//this.products.filter(p=>!this.reviewedItemsASIN.includes(p.ASIN))
