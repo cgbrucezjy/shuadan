@@ -5,7 +5,7 @@
       userProfile="{{userProfile | json}}" [bought]="!!boughtItemsASIN && boughtItemsASIN.includes(product.ASIN)"
       [boughtItems]="boughtItems" [reviewed]="!!reviewedItemsASIN && reviewedItemsASIN.includes(product.ASIN)"></app-sd-card>
     </mat-grid-tile>
-    <mat-grid-tile *ngIf="!isAdmin">
+    <mat-grid-tile *ngIf="isAdmin">
         <button mat-fab (click)="addItem()">
           <mat-icon >add</mat-icon>
         </button>

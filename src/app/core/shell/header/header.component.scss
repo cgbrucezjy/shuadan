@@ -2,7 +2,10 @@
 mat-toolbar{
   background-color: rgb(33, 33, 64);
   color:white;
-
+  p{
+    margin-right:5px;
+    font-size:11px;
+  }
   mat-toolbar-row.first{
     img{
       width:120px;

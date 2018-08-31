@@ -12,19 +12,19 @@
           </div>  
           <h2>BRUSH ME</h2>
           <span class="fill-remaining-space"></span>
-  
+          <P *ngIf="!profile">Login Required </P>
           <button mat-mini-fab [style.backgroundImage]="'url(' + profile?.photo + ')'" [matMenuTriggerFor]="menu"></button>
         </mat-toolbar-row>
       </mat-toolbar>
 
       <mat-menu #menu="matMenu">
-          <button mat-menu-item disabled *ngIf="profile.email">
+          <button mat-menu-item disabled *ngIf="profile">
             <span>Logged in as {{profile.displayName || profile.email}}</span>
           </button>
-          <button mat-menu-item (click)="logout()" *ngIf="profile.email">
+          <button mat-menu-item (click)="logout()" *ngIf="profile">
             <span>Logout</span>
           </button>
-          <button mat-menu-item (click)="login()" *ngIf="!profile.email">
+          <button mat-menu-item (click)="login()" *ngIf="!profile">
             <span>Login</span>
           </button>
         </mat-menu>

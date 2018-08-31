@@ -9,6 +9,7 @@ import { AppState } from '../reducers/app-state-reducer';
 import { MatDialog } from '@angular/material';
 import { UpdateDialogComponent } from '../components/update-dialog/update-dialog.component';
 import { Order, UserService } from '../services/user-service';
+import { pipe } from '@angular/core/src/render3/pipe';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -81,6 +82,12 @@ export class HomeComponent implements OnInit {
           this.reviewedItemsASIN = resp.filter(i=>i.reviewed).map(i=>i.ASIN)
           this.products = this.products//this.products.filter(p=>!this.reviewedItemsASIN.includes(p.ASIN))
           this.boughtItems = resp
+        })
+      }
+      else
+      {
+        this.fb.products().pipe(take(1)).subscribe((resp)=>{
+          this.products = resp
         })
       }
 

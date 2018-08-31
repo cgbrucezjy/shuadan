@@ -47,7 +47,7 @@ export class BougtDialogComponent implements OnInit {
             reviewed:true,
             ASIN:this.boughtItem.ASIN
           }
-          this.uploadImage("data.orderId")
+          this.uploadImage(this.boughtItem.orderId)
           this.fb.updateOrder(updateData,this.boughtItem.orderKey)
           this.userServce.updateUserOrder(updateData)
           this.uploadProgress.pipe(

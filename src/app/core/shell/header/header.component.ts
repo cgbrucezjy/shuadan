@@ -23,6 +23,8 @@ export class HeaderComponent implements OnInit {
     ).subscribe(profile=>{
       if(profile)
         this.profile = profile
+      else
+        this.profile = null
     })
     //this.authService.getCurrentAuthUser()
   }
